@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🥑.🔬</title>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <h1 id="prof"></h1>
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    h1 {
+      font-family: Helvetica, Arial, sans-serif;
+      text-align: center;
+    }
+  </style>
+  <script type="text/javascript">
+  
+    const ctx = canvas.getContext('2d')
+    const data = {
+      avocados: [
+        {
+          name: 1,
+          width: 564,
+          height: 750,
+        },
+        {
+          name: 2,
+          width: 491,
+          height: 750,
+        },
+        {
+          name: 3,
+          width: 518,
+          height: 750,
+        },
+      ],
+      glasses: [
+        'big_timer_4_1',
+        'dapper_4_',
+        'keen_4',
+        'razz_4',
+        'swanky_10',
+        'vy_jordan_4',
+        'vy_the_fitzgerald_4',
+      ],
+      names: [
+        'Bernardina Stpeter',
+        'Leroy Lorence',
+        'Oralia Heal',
+        'Abe Osullivan',
+        'Rachelle Scriven',
+        'Gonzalo Brister',
+        'Sharen Thornburg',
+        'Julieann Cobbley',
+        'Bessie Lariviere',
+        'Romana Mangold',
+        'Amado Youngs',
+        'Sibyl Beal',
+        'Ricarda Balboa',
+        'Damon Helman',
+        'Damien Steffenson',
+        'Shanell Clevinger',
+        'Magdalena Thurmond',
+        'Sally Linebaugh',
+        'Fiona Houseknecht',
+        'Darcie Eberhardt',
+        'Horace Radabaugh',
+        'Ileana Krebsbach',
+        'Tyrone Bross',
+        'Chara Metcalf',
+        'Joette Waldroup',
+        'Thao Vanpatten',
+        'Sherrill Ohara',
+        'Chong Sumner',
+        'Colene Richer',
+        'Bianca Grier',
+      ]
+    }
+    
+    let fromInterval = (min,max) => {
+      return Math.floor( Math.random() * (max - min + 1) + min );
+    }
+    
+    let getAvocado = () => {
+      return data.avocados[ fromInterval(0, data.avocados.length - 1) ]
+    }
+    let getGlasses = () => {
+      let glass = data.glasses[ fromInterval(0, data.glasses.length - 1) ]
+      return {
+        name: glass
+      }
+    }
+    
+    let avocado = getAvocado()
+    let glass   = getGlasses()
+    
+    canvas.height = avocado.height
+    canvas.width  = avocado.width
+    canvas.style.height = `${avocado.height / 2}px`
+    canvas.style.width  = `${avocado.width / 2}px`
+    
+    let loadImage = (type, name, callback) => {
+      let img = document.createElement('img')
+      img.src = `assets/${type}/${name}.png`
+      img.onload = () => {
+        callback(img)
+      }
+    }
+    
+    loadImage('avocados', avocado.name, img => {
+      
+      ctx.drawImage( img, 0, 0 )
+      
+      loadImage('glasses', glass.name, img => {
+        
+        let min = 300
+        let max = avocado.width
+        let center = max / 2
+        
+        let width = fromInterval(min, max)
+        let height = img.height * ( width / img.width )
+        
+        let left = center - ( width / 2 )
+        let top = fromInterval(100, 300)
+        
+        ctx.drawImage( img, left, top, width, height )
+        
+      })
+      
+    })
+    
+    prof.textContent = `Prof. ${ data.names[ fromInterval(0, data.names.length - 1) ] }`
+    
+  </script>
+</body>
+</html>
